@@ -17,8 +17,8 @@ Usage examples:
   python3 fetch_gcode_metadata.py \
     --host localhost --port 7125 \
     --endpoint /server/database/item?namespace=gcode_metadata \
-    --gcode-dir ~/printer_data/gcode \
-    --archive-dir ~/printer_data/gcode/archive \
+    --gcode-dir ~/printer_data/gcodes \
+    --archive-dir ~/printer_data/gcodes/archive \
     --keep 42
 
 Archiving: moves files from gcode_dir to archive_dir. Default is to execute
@@ -142,13 +142,13 @@ def main() -> int:
     )
     parser.add_argument(
         "--gcode-dir",
-        default=os.path.expanduser("~/printer_data/gcode"),
-        help="Directory containing G-code files (default: ~/printer_data/gcode)",
+        default=os.path.expanduser("~/printer_data/gcodes"),
+        help="Directory containing G-code files (default: ~/printer_data/gcodes)",
     )
     parser.add_argument(
         "--archive-dir",
-        default=os.path.expanduser("~/printer_data/gcode/archive"),
-        help="Directory to move archived files into (default: ~/printer_data/gcode/archive)",
+        default=os.path.expanduser("~/printer_data/gcodes/archive"),
+        help="Directory to move archived files into (default: ~/printer_data/gcodes/archive)",
     )
     parser.add_argument(
         "--dry-run",

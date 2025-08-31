@@ -1,6 +1,7 @@
 ## G-code Archiver for Moonraker
 
-A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recent G-code files, and prints or executes moves to archive the rest. Keeps your gcode directory from overflowing, only keeping likely relevant stuff there. 100% vibe coded.
+A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recent gcode files, and prints or executes moves to archive the rest. Keeps your gcode directory from overflowing, only keeping likely relevant stuff there. 100% vibe coded.
+Should work reasonably well with a default Klipper/Moonraker/Mainsail setup. If you run this using cron, make sure you run this as the correct user or change the paths (since `~/printer_data` might otherwise not work.)
 
 ### Requirements
 
@@ -24,7 +25,7 @@ python3 fetch_gcode_metadata.py \
   --endpoint /server/database/item?namespace=gcode_metadata \
   --keep 42 \
   --gcode-dir ~/printer_data/gcode \
-  --archive-dir ~/printer_data/gcode/archive
+  --archive-dir ~/printer_data/gcodes/archive
 ```
 
 - To preview commands without moving files:
@@ -40,8 +41,8 @@ python3 fetch_gcode_metadata.py --keep 42 --dry-run
 - `--endpoint` (default: `/server/database/item?namespace=gcode_metadata`): API path
 - `--timeout` (default: `10`): HTTP timeout in seconds
 - `--keep` (default: `42`): Number of most recent files to keep
-- `--gcode-dir` (default: `~/printer_data/gcode`): Source directory of `.gcode` files
-- `--archive-dir` (default: `~/printer_data/gcode/archive`): Destination directory for archived files
+- `--gcode-dir` (default: `~/printer_data/gcodes`): Source directory of `.gcode` files
+- `--archive-dir` (default: `~/printer_data/gcodes/archive`): Destination directory for archived files
 - `--dry-run` (flag): Print `mv -n` commands; otherwise perform moves
 - `--verbose` (flag): Print detailed keep/archive listing and messages
 
