@@ -15,12 +15,12 @@ Usage examples:
   python3 fetch_gcode_metadata.py --from-file api_example.json --keep 10 --json
 
 By default, prints pretty JSON of the response. When --keep is specified,
-prints a summary of which files to keep vs archive. Use --json to output
-machine-readable keep/archive lists.
+prints a summary of which files to keep vs archive.
 
 Archiving: specify --gcode-dir and --archive-dir (defaults to
-~/printer_data/gcode and ~/printer_data/gcode/archive). The script prints the
-corresponding mv commands by default; pass --execute to perform the moves.
+~/printer_data/gcode and ~/printer_data/gcode/archive). By default the script
+executes file moves; pass --dry-run to only print the corresponding mv
+commands without making changes.
 """
 
 import argparse
@@ -134,8 +134,8 @@ def main() -> int:
     parser.add_argument(
         "--keep",
         type=int,
-        default=12,
-        help="Number of most-recent files to keep; others will be listed as archive (default: 12)",
+        default=42,
+        help="Number of most-recent files to keep; others will be listed as archive (default: 42)",
     )
     parser.add_argument(
         "--gcode-dir",
@@ -148,9 +148,9 @@ def main() -> int:
         help="Directory to move archived files into (default: ~/printer_data/gcode/archive)",
     )
     parser.add_argument(
-        "--execute",
+        "--dry-run",
         action="store_true",
-        help="Actually move files to archive_dir (default: dry-run prints mv commands)",
+        help="Print mv commands without moving files (default: execute moves)",
     )
     args = parser.parse_args()
 
@@ -194,7 +194,7 @@ def main() -> int:
     gcode_dir = os.path.expanduser(args.gcode_dir)
     archive_dir = os.path.expanduser(args.archive_dir)
     print("")
-    if args.execute:
+    if not args.dry_run:
         print(f"Executing moves to archive: {archive_dir}")
         for name, _ in archive:
             src = os.path.join(gcode_dir, name)

@@ -11,8 +11,8 @@ A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps t
 - Fetches `gcode_metadata` from Moonraker at `http://<host>:<port><endpoint>`.
 - Computes recency per file as `max(modified, print_start_time)`.
 - Keeps the most recent `--keep` files; the rest are listed for archiving.
-- By default, prints dry-run `mv -n` commands from `--gcode-dir` to `--archive-dir`.
-- With `--execute`, creates destination directories as needed and moves files.
+- By default, executes moves from `--gcode-dir` to `--archive-dir`.
+- With `--dry-run`, prints `mv -n` commands without making changes.
 
 ### Usage
 
@@ -21,15 +21,15 @@ python3 fetch_gcode_metadata.py \
   --host localhost \
   --port 7125 \
   --endpoint /server/database/item?namespace=gcode_metadata \
-  --keep 12 \
+  --keep 42 \
   --gcode-dir ~/printer_data/gcode \
   --archive-dir ~/printer_data/gcode/archive
 ```
 
-- To actually move files (instead of printing the commands):
+- To preview commands without moving files:
 
 ```bash
-python3 fetch_gcode_metadata.py --keep 12 --execute
+python3 fetch_gcode_metadata.py --keep 42 --dry-run
 ```
 
 ### Arguments
@@ -38,10 +38,10 @@ python3 fetch_gcode_metadata.py --keep 12 --execute
 - `--port` (default: `7125`): Moonraker port
 - `--endpoint` (default: `/server/database/item?namespace=gcode_metadata`): API path
 - `--timeout` (default: `10`): HTTP timeout in seconds
-- `--keep` (default: `12`): Number of most recent files to keep
+- `--keep` (default: `42`): Number of most recent files to keep
 - `--gcode-dir` (default: `~/printer_data/gcode`): Source directory of `.gcode` files
 - `--archive-dir` (default: `~/printer_data/gcode/archive`): Destination directory for archived files
-- `--execute` (flag): Perform moves; otherwise only print `mv -n` commands
+- `--dry-run` (flag): Print `mv -n` commands; otherwise perform moves
 
 ### Notes
 
