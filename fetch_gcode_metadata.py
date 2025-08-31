@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
 """
-Fetch and parse G-code metadata from a Moonraker server. Optionally compute
-the most recent files to keep and which to archive.
+Query Moonraker for gcode_metadata, keep the N most recent files, and archive
+the rest. Recency is computed as max(modified, print_start_time).
 
 Usage examples:
-  # Fetch from Moonraker and pretty-print the raw JSON
-  python3 fetch_gcode_metadata.py --host localhost --port 7125 \
-    --endpoint /server/database/item?namespace=gcode_metadata
+  # Common usage: execute moves (default)
+  python3 fetch_gcode_metadata.py --keep 42
 
-  # Compute keep/archive sets (using recency=max(modified, print_start_time))
-  python3 fetch_gcode_metadata.py --keep 20
+  # Preview only (no changes):
+  python3 fetch_gcode_metadata.py --keep 42 --dry-run
 
-  # Use a local saved response instead of live URL
-  python3 fetch_gcode_metadata.py --from-file api_example.json --keep 10 --json
+  # Verbose listing of keep/archive sets:
+  python3 fetch_gcode_metadata.py --keep 42 --verbose
 
-By default, prints pretty JSON of the response. When --keep is specified,
-prints a summary of which files to keep vs archive.
+  # Explicit server and directories:
+  python3 fetch_gcode_metadata.py \
+    --host localhost --port 7125 \
+    --endpoint /server/database/item?namespace=gcode_metadata \
+    --gcode-dir ~/printer_data/gcode \
+    --archive-dir ~/printer_data/gcode/archive \
+    --keep 42
 
-Archiving: specify --gcode-dir and --archive-dir (defaults to
-~/printer_data/gcode and ~/printer_data/gcode/archive). By default the script
-executes file moves; pass --dry-run to only print the corresponding mv
-commands without making changes. Use --verbose for detailed output.
+Archiving: moves files from gcode_dir to archive_dir. Default is to execute
+moves; pass --dry-run to only print the corresponding mv commands. Use
+--verbose for detailed output.
 """
 
 import argparse
