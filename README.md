@@ -13,6 +13,7 @@ A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps t
 - Keeps the most recent `--keep` files; the rest are listed for archiving.
 - By default, executes moves from `--gcode-dir` to `--archive-dir`.
 - With `--dry-run`, prints `mv -n` commands without making changes.
+- With `--verbose`, prints detailed keep/archive listings and move summary.
 
 ### Usage
 
@@ -42,6 +43,7 @@ python3 fetch_gcode_metadata.py --keep 42 --dry-run
 - `--gcode-dir` (default: `~/printer_data/gcode`): Source directory of `.gcode` files
 - `--archive-dir` (default: `~/printer_data/gcode/archive`): Destination directory for archived files
 - `--dry-run` (flag): Print `mv -n` commands; otherwise perform moves
+- `--verbose` (flag): Print detailed keep/archive listing and messages
 
 ### Notes
 

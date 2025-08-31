@@ -20,7 +20,7 @@ prints a summary of which files to keep vs archive.
 Archiving: specify --gcode-dir and --archive-dir (defaults to
 ~/printer_data/gcode and ~/printer_data/gcode/archive). By default the script
 executes file moves; pass --dry-run to only print the corresponding mv
-commands without making changes.
+commands without making changes. Use --verbose for detailed output.
 """
 
 import argparse
@@ -152,6 +152,11 @@ def main() -> int:
         action="store_true",
         help="Print mv commands without moving files (default: execute moves)",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print detailed information including keep/archive lists",
+    )
     args = parser.parse_args()
 
     # Always fetch from the Moonraker server
@@ -177,25 +182,27 @@ def main() -> int:
 
     keep, archive = select_keep_and_archive(filename_to_metadata, args.keep)
 
-    print(f"Recency metric = max(modified, print_start_time)")
-    print(f"Keeping {len(keep)} files:")
-    for name, recency in keep:
-        print(f"  KEEP   {recency:.3f}  {name}")
-    print("")
-    print(f"Archiving {len(archive)} files:")
-    for name, recency in archive:
-        # For unknown times, recency will be -1
-        if recency < 0:
-            print(f"  ARCH   unknown   {name}")
-        else:
-            print(f"  ARCH   {recency:.3f}  {name}")
+    if args.verbose:
+        print(f"Recency metric = max(modified, print_start_time)")
+        print(f"Keeping {len(keep)} files:")
+        for name, recency in keep:
+            print(f"  KEEP   {recency:.3f}  {name}")
+        print("")
+        print(f"Archiving {len(archive)} files:")
+        for name, recency in archive:
+            # For unknown times, recency will be -1
+            if recency < 0:
+                print(f"  ARCH   unknown   {name}")
+            else:
+                print(f"  ARCH   {recency:.3f}  {name}")
 
     # Print or execute move commands
     gcode_dir = os.path.expanduser(args.gcode_dir)
     archive_dir = os.path.expanduser(args.archive_dir)
     print("")
     if not args.dry_run:
-        print(f"Executing moves to archive: {archive_dir}")
+        if args.verbose:
+            print(f"Executing moves to archive: {archive_dir}")
         for name, _ in archive:
             src = os.path.join(gcode_dir, name)
             dst = os.path.join(archive_dir, name)
@@ -206,11 +213,13 @@ def main() -> int:
                 shutil.move(src, dst)
                 print(f"moved: {src} -> {dst}")
             except FileNotFoundError:
-                print(f"skip (missing): {src}")
+                if args.verbose:
+                    print(f"skip (missing): {src}")
             except Exception as exc:  # noqa: BLE001 - CLI entrypoint
                 print(f"error moving {src} -> {dst}: {exc}")
     else:
-        print("Dry run. The following commands would be executed:")
+        if args.verbose:
+            print("Dry run. The following commands would be executed:")
         for name, _ in archive:
             src = os.path.join(gcode_dir, name)
             dst = os.path.join(archive_dir, name)
