@@ -1,6 +1,6 @@
 ## G-code Archiver for Moonraker
 
-A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recent G-code files, and prints or executes moves to archive the rest.
+A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recent G-code files, and prints or executes moves to archive the rest. Keeps your gcode directory from overflowing, only keeping likely relevant stuff there. 100% vibe coded.
 
 ### Requirements
 
@@ -50,4 +50,5 @@ python3 fetch_gcode_metadata.py --keep 42 --dry-run
 - Unknown timestamps are treated as least recent (they get archived first).
 - Moves use Python `shutil.move` (cross-filesystem safe). Dry-run output uses `mv -n` for clarity.
 
-
+### License
+Licensed under GNU General Public License v3

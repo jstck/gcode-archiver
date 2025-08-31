@@ -5,13 +5,13 @@ the rest. Recency is computed as max(modified, print_start_time).
 
 Usage examples:
   # Common usage: execute moves (default)
-  python3 fetch_gcode_metadata.py --keep 42
+  python3 fetch_gcode_metadata.py
 
   # Preview only (no changes):
-  python3 fetch_gcode_metadata.py --keep 42 --dry-run
+  python3 fetch_gcode_metadata.py --keep 17 --dry-run
 
   # Verbose listing of keep/archive sets:
-  python3 fetch_gcode_metadata.py --keep 42 --verbose
+  python3 fetch_gcode_metadata.py --keep 100 --verbose
 
   # Explicit server and directories:
   python3 fetch_gcode_metadata.py \
@@ -233,5 +233,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
