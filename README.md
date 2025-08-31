@@ -50,6 +50,7 @@ python3 fetch_gcode_metadata.py --keep 42 --dry-run
 
 - Unknown timestamps are treated as least recent (they get archived first).
 - Moves use Python `shutil.move` (cross-filesystem safe). Dry-run output uses `mv -n` for clarity.
+- It is unknown what happens if this script runs during printing and tries to archive the file currently being printed. It should have a recent enough `print_start` timestamp, but you could still do `--keep 0` or upload a bunch of files after printing starts or mess with the system clock or something. Upon your own head be it. 
 
 ### License
 Licensed under GNU General Public License v3
