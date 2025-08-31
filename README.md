@@ -1,6 +1,6 @@
 ## G-code Archiver for Moonraker
 
-A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recent gcode files, and prints or executes moves to archive the rest. Keeps your gcode directory from overflowing, only keeping likely relevant stuff there. 100% vibe coded.
+A small Python CLI that queries a Moonraker server for `gcode_metadata`, keeps the N most recently uploaded or printed gcode files, and prints or executes moves to archive the rest. Keeps your gcode directory from overflowing, only keeping likely relevant stuff there. 100% vibe coded.
 Should work reasonably well with a default Klipper/Moonraker/Mainsail setup. If you run this using cron, make sure you run this as the correct user or change the paths (since `~/printer_data` might otherwise not work.)
 
 ### Requirements
