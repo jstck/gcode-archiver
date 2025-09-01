@@ -19,19 +19,19 @@ Should work reasonably well with a default Klipper/Moonraker/Mainsail setup. If 
 ### Usage
 
 ```bash
-python3 fetch_gcode_metadata.py \
+python3 archive_gcode.py \
   --host localhost \
   --port 7125 \
   --endpoint /server/database/item?namespace=gcode_metadata \
-  --keep 42 \
-  --gcode-dir ~/printer_data/gcode \
+  --keep 20 \
+  --gcode-dir ~/printer_data/gcodes \
   --archive-dir ~/printer_data/gcodes/archive
 ```
 
 - To preview commands without moving files:
 
 ```bash
-python3 fetch_gcode_metadata.py --keep 42 --dry-run
+python3 archive_gcode.py --keep 20 --dry-run
 ```
 
 ### Arguments
@@ -40,7 +40,7 @@ python3 fetch_gcode_metadata.py --keep 42 --dry-run
 - `--port` (default: `7125`): Moonraker port
 - `--endpoint` (default: `/server/database/item?namespace=gcode_metadata`): API path
 - `--timeout` (default: `10`): HTTP timeout in seconds
-- `--keep` (default: `42`): Number of most recent files to keep
+- `--keep` (default: `20`): Number of most recent files to keep
 - `--gcode-dir` (default: `~/printer_data/gcodes`): Source directory of `.gcode` files
 - `--archive-dir` (default: `~/printer_data/gcodes/archive`): Destination directory for archived files
 - `--dry-run` (flag): Print `mv -n` commands; otherwise perform moves

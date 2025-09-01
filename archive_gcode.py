@@ -5,21 +5,21 @@ the rest. Recency is computed as max(modified, print_start_time).
 
 Usage examples:
   # Common usage: execute moves (default)
-  python3 fetch_gcode_metadata.py
+  python3 archive_gcode.py
 
   # Preview only (no changes):
-  python3 fetch_gcode_metadata.py --keep 17 --dry-run
+  python3 archive_gcode.py --keep 17 --dry-run
 
   # Verbose listing of keep/archive sets:
-  python3 fetch_gcode_metadata.py --keep 100 --verbose
+  python3 archive_gcode.py --keep 100 --verbose
 
   # Explicit server and directories:
-  python3 fetch_gcode_metadata.py \
+  python3 archive_gcode.py \
     --host localhost --port 7125 \
     --endpoint /server/database/item?namespace=gcode_metadata \
     --gcode-dir ~/printer_data/gcodes \
     --archive-dir ~/printer_data/gcodes/archive \
-    --keep 42
+    --keep 20
 
 Archiving: moves files from gcode_dir to archive_dir. Default is to execute
 moves; pass --dry-run to only print the corresponding mv commands. Use
@@ -137,8 +137,8 @@ def main() -> int:
     parser.add_argument(
         "--keep",
         type=int,
-        default=42,
-        help="Number of most-recent files to keep; others will be listed as archive (default: 42)",
+        default=20,
+        help="Number of most-recent files to keep; others will be listed as archive (default: 20)",
     )
     parser.add_argument(
         "--gcode-dir",
